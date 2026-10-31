@@ -24,3 +24,7 @@ export const toApi = (v) => round2(v).toFixed(2);
 
 /** Rate → API string ("18.00"). */
 export const rateToApi = (v) => D(v).toDecimalPlaces(2, Decimal.ROUND_HALF_UP).toFixed(2);
+
+/** Indian grouping, 2 decimals, no symbol: 1234567.5 → "12,34,567.50". */
+export const formatInr = (v) =>
+  new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Number(round2(v)));

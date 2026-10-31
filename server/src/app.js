@@ -17,6 +17,8 @@ import { customersRouter } from './modules/customers/customers.routes.js';
 import { subscriptionsRouter } from './modules/subscriptions/subscriptions.routes.js';
 import { billingRouter } from './modules/billing/billing.routes.js';
 import { invoicesRouter } from './modules/invoices/invoices.routes.js';
+import { discountsRouter } from './modules/discounts/discounts.routes.js';
+import { paymentsRouter } from './modules/payments/payments.routes.js';
 
 /** Builds the Express app (no listen), so tests can use it with supertest. */
 export function createApp() {
@@ -46,6 +48,8 @@ export function createApp() {
   api.use('/subscriptions', subscriptionsRouter);
   api.use('/billing', billingRouter);
   api.use('/invoices', invoicesRouter);
+  api.use('/discounts', discountsRouter);
+  api.use('/payments', paymentsRouter);
   app.use('/api/v1', api);
 
   app.use('/api', notFoundRoute);

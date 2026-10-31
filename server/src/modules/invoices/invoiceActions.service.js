@@ -1,7 +1,7 @@
 // Invoice lifecycle: DRAFT → CONFIRMED → PAID, or CANCELLED (TECHNICAL_DESIGN §10.1, API.md §4.11.3).
 import { prisma } from '../../lib/prisma.js';
 import { AppError } from '../../lib/errors.js';
-import { D } from '../../lib/money.js';
+import { D, formatInr as inr } from '../../lib/money.js';
 import { addDays, formatDate } from '../../lib/dates.js';
 import { config } from '../../config/index.js';
 import { sendMail, layout, escapeHtml } from '../../lib/mailer.js';
@@ -10,7 +10,6 @@ import { findInvoice } from './invoices.service.js';
 import { amountDue, toInvoiceDetailApi } from './invoices.view.js';
 
 const invalid = (message) => new AppError('INV_INVALID_TRANSITION', message, 409);
-const inr = (v) => new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Number(v));
 
 const lockInvoice = (tx, id) => tx.$queryRaw`SELECT id FROM invoices WHERE id = ${id} FOR UPDATE`;
 
