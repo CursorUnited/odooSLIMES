@@ -11,6 +11,7 @@ import {
 } from './subscriptions.schema.js';
 import * as subs from './subscriptions.service.js';
 import { performAction } from './actions.service.js';
+import { billNow } from '../billing/billing.service.js';
 
 export const subscriptionsRouter = Router();
 subscriptionsRouter.use(requireAuth);
@@ -42,4 +43,8 @@ subscriptionsRouter.get('/:id/events', validate({ params: idParam }), async (req
 subscriptionsRouter.post('/:id/actions/:action', validate({ params: actionParams, body: actionBody }), async (req, res) => {
   const { id, action } = req.valid.params;
   res.json({ data: await performAction(req.user, id, action, req.valid.body.note) });
+});
+
+subscriptionsRouter.post('/:id/invoice', requireRole(...BACK_OFFICE), validate({ params: idParam }), async (req, res) => {
+  res.status(201).json({ data: await billNow(req.user, req.valid.params.id) });
 });

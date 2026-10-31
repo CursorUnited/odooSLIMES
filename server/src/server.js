@@ -1,11 +1,13 @@
 import { config } from './config/index.js';
 import { createApp } from './app.js';
 import { prisma } from './lib/prisma.js';
+import { startDailyJob } from './jobs/daily.js';
 
 const app = createApp();
 
 const server = app.listen(config.port, () => {
   console.log(`[server] listening on http://localhost:${config.port}/api/v1 (TZ=${process.env.TZ})`);
+  startDailyJob();
 });
 
 async function shutdown(signal) {
