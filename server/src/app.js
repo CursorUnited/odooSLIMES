@@ -19,6 +19,7 @@ import { billingRouter } from './modules/billing/billing.routes.js';
 import { invoicesRouter } from './modules/invoices/invoices.routes.js';
 import { discountsRouter } from './modules/discounts/discounts.routes.js';
 import { paymentsRouter } from './modules/payments/payments.routes.js';
+import { reportsRouter } from './modules/reports/reports.routes.js';
 
 /** Builds the Express app (no listen), so tests can use it with supertest. */
 export function createApp() {
@@ -50,6 +51,7 @@ export function createApp() {
   api.use('/invoices', invoicesRouter);
   api.use('/discounts', discountsRouter);
   api.use('/payments', paymentsRouter);
+  api.use('/reports', reportsRouter);
   app.use('/api/v1', api);
 
   app.use('/api', notFoundRoute);
