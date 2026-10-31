@@ -14,7 +14,8 @@
     "db:reset": "prisma migrate reset --force --skip-seed",
     "db:seed": "node prisma/seed.js",
     "db:seed:bulk": "node prisma/seed-bulk.js",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "db:test:prepare": "node scripts/test-db.js"
   },
   "license": "UNLICENSED",
   "type": "module",
@@ -42,5 +43,8 @@
   },
   "engines": {
     "node": ">=24"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }
