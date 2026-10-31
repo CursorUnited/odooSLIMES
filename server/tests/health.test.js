@@ -29,4 +29,11 @@ describe('health and error shape', () => {
     expect(res.status).toBe(400);
     expect(res.body.error.code).toBe('VALIDATION_FAILED');
   });
+
+  it('body over 1 MB returns 413, not 500', async () => {
+    const huge = JSON.stringify({ email: 'a'.repeat(1_100_000) });
+    const res = await request(app).post('/api/v1/auth/login').set('Content-Type', 'application/json').send(huge);
+    expect(res.status).toBe(413);
+    expect(res.body.error.code).toBe('VALIDATION_FAILED');
+  });
 });

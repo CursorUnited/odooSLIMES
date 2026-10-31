@@ -1,3 +1,5 @@
+import { today } from './dates.js';
+
 const SEQUENCES = {
   SUB: 'seq_subscription',
   INV: 'seq_invoice',
@@ -11,9 +13,10 @@ export function formatNumber(prefix, year, n) {
 
 /**
  * Next document number from the Postgres sequence, inside the caller's
- * transaction. `date` gives the year (defaults to now).
+ * transaction. `date` is a business date (UTC midnight) giving the year;
+ * defaults to today in IST, so 00:30 IST on 1 Jan is already the new year.
  */
-export async function nextNumber(tx, prefix, date = new Date()) {
+export async function nextNumber(tx, prefix, date = today()) {
   const seq = SEQUENCES[prefix];
   if (!seq) throw new Error(`Unknown number prefix ${prefix}`);
   const [row] = await tx.$queryRawUnsafe(`SELECT nextval('${seq}')::int AS n`);

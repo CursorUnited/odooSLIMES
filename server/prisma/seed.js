@@ -5,6 +5,7 @@ import { hashPassword } from '../src/lib/password.js';
 import { parseDate } from '../src/lib/dates.js';
 
 const env = (key, fallback) => process.env[key] || fallback;
+const envEmail = (key, fallback) => env(key, fallback).trim().toLowerCase();
 
 async function main() {
   if (await prisma.user.count()) {
@@ -16,7 +17,7 @@ async function main() {
     // Accounts
     const admin = await tx.user.create({
       data: {
-        email: env('SEED_ADMIN_EMAIL', 'admin@brightloop.test'),
+        email: envEmail('SEED_ADMIN_EMAIL', 'admin@brightloop.test'),
         passwordHash: await hashPassword(env('SEED_ADMIN_PASSWORD', 'Admin@1234')),
         name: 'Brightloop Admin',
         role: 'ADMIN',
@@ -24,13 +25,13 @@ async function main() {
     });
     await tx.user.create({
       data: {
-        email: env('SEED_STAFF_EMAIL', 'staff@brightloop.test'),
+        email: envEmail('SEED_STAFF_EMAIL', 'staff@brightloop.test'),
         passwordHash: await hashPassword(env('SEED_STAFF_PASSWORD', 'Staff@1234')),
         name: 'Ravi Staff',
         role: 'STAFF',
       },
     });
-    const customerEmail = env('SEED_CUSTOMER_EMAIL', 'customer@brightloop.test');
+    const customerEmail = envEmail('SEED_CUSTOMER_EMAIL', 'customer@brightloop.test');
     const customer = await tx.customer.create({
       data: {
         name: 'Kanpur Mart',

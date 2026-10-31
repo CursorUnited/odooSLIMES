@@ -49,6 +49,8 @@ export function errorHandler(err, req, res, next) {
   } else if (err instanceof Prisma.PrismaClientKnownRequestError) appErr = fromPrisma(err);
   else if (err?.type === 'entity.parse.failed') {
     appErr = new AppError('VALIDATION_FAILED', 'Request body is not valid JSON.', 400);
+  } else if (err?.type === 'entity.too.large') {
+    appErr = new AppError('VALIDATION_FAILED', 'Request body is too large.', 413);
   }
 
   if (!appErr) {
