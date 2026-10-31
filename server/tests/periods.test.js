@@ -63,3 +63,13 @@ describe('money and numbering helpers', () => {
     expect(formatNumber('INV', 2026, 7001)).toBe('INV/2026/07001');
   });
 });
+
+describe('periodStartOnOrAfter (resume after pause)', () => {
+  it('keeps a date that is already a period start; else rounds up to the next one', async () => {
+    const { periodStartOnOrAfter } = await import('../src/lib/dates.js');
+    const start = d('2026-01-31');
+    expect(f(periodStartOnOrAfter(start, 'MONTHLY', 1, d('2026-03-31')))).toBe('2026-03-31');
+    expect(f(periodStartOnOrAfter(start, 'MONTHLY', 1, d('2026-04-01')))).toBe('2026-04-30');
+    expect(f(periodStartOnOrAfter(start, 'MONTHLY', 1, d('2025-12-01')))).toBe('2026-01-31');
+  });
+});

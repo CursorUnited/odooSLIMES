@@ -76,6 +76,12 @@ export function nextPeriodStartAfter(anchor, period, intervalCount, date) {
   return periodStartAt(anchor, period, intervalCount, n + 1);
 }
 
+/** `date` if it is a period start of the schedule, else the next period start after it. */
+export function periodStartOnOrAfter(anchor, period, intervalCount, date) {
+  if (date <= anchor) return anchor;
+  return nextPeriodStartAfter(anchor, period, intervalCount, addDays(date, -1));
+}
+
 /** Period [start, end] that begins at `periodStart` (end = next start − 1 day). */
 export function periodBounds(anchor, period, intervalCount, periodStart) {
   const next = nextPeriodStartAfter(anchor, period, intervalCount, periodStart);

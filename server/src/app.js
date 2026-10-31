@@ -14,6 +14,7 @@ import { productsRouter, variantsRouter } from './modules/products/products.rout
 import { plansRouter } from './modules/plans/plans.routes.js';
 import { templatesRouter } from './modules/templates/templates.routes.js';
 import { customersRouter } from './modules/customers/customers.routes.js';
+import { subscriptionsRouter } from './modules/subscriptions/subscriptions.routes.js';
 
 /** Builds the Express app (no listen), so tests can use it with supertest. */
 export function createApp() {
@@ -40,6 +41,7 @@ export function createApp() {
   api.use('/plans', plansRouter);
   api.use('/quotation-templates', templatesRouter);
   api.use('/customers', customersRouter);
+  api.use('/subscriptions', subscriptionsRouter);
   app.use('/api/v1', api);
 
   app.use('/api', notFoundRoute);
